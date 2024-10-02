@@ -1,5 +1,5 @@
 // state 는 상태값 오브젝트, action 오브젝트(type, payload)는 무엇을 어떻게 할것인가를 전달
-//          리턴은 새로운 상태값
+//          state 인자는 현재상태값, 리턴은 새로운 상태값
 export default function reducer(state, action){
     switch (action.type){
         case "SET_GROUP":
