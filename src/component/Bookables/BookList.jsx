@@ -1,16 +1,21 @@
-import { bookables, days, sessions } from "../../static.json"
-import {useReducer} from "react";
+import {days, sessions} from "../../static.json"
+import {useEffect, useReducer, useState} from "react";
 import {FaArrowRight} from "react-icons/fa";
 import reducer from "./reducer.js";
+import BookListSpinner from "./BookListSpinner.jsx";
 
-function BookList() {
+export default function BookList() {
     
     const initState = {
         group: "Rooms",
         bookableIndex: 0,
         hasDetails: false
     }
-    
+
+    const [books, setBooks] = useState(null)
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true)
+
     // state 는 상태값들을 모아놓은 오브젝트
     const [state, dispatch] = useReducer(reducer, initState)
     // dispatch 는 현재상태값 -> 새로운 상태값을 만든다. 이벤트 핸들러에서 실행된다.
@@ -23,6 +28,25 @@ function BookList() {
     
     const bookableGroup = bookables.filter(b => (b.group === group))
     const groups = [...new Set(bookables.map(b => b.group))]  // 현재 상황 ["Rooms", "Kit"
+
+    useEffect(() => {
+        setLoading(true)
+        fetch("http://localhost:3002/bookables")
+            .then(response => {return response.json()})
+            .then(data => {
+                setBooks(data)
+                setLoading(false)
+            })
+            .catch(error => setError(error.message))
+    }, []);
+
+    if(error) {
+        return <div>오류: {error}</div>
+    }
+
+    if(loading) {
+        return <span><BookListSpinner/>Loading....</span>
+    }
 
     function nextBookableIndex() {
         dispatch({
@@ -108,4 +132,3 @@ function BookList() {
     )
 }
 
-export default BookList;
