@@ -9,8 +9,10 @@ export default function BookablesView () {
     const [bookable, setBookable] = useState();
     return (
         <>
+            {/* 자식 컴포넌트에서 state 변수값 변경할 수 있도록 변경함수로 전달합니다. */}
             <BookablesList bookable={bookable} setBookable={setBookable}/>
             <BookableDetails bookable={bookable}/>
         </>
     );
+    // bookable state 상태 변화는 자식 컴포넌트에서 발생하고 변경된 상태를 부모에게로 전달
 }

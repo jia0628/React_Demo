@@ -3,8 +3,9 @@ import {FaArrowRight} from "react-icons/fa";
 import Spinner from "../UI/Spinner.jsx";
 import loadData from "../utils/api.js";
 
-// bookables 는 전체 목록, bookable 목록 중에 선택한 하나의 객체를 컴포넌트 프롭스로 받음.
-//자식 컴포넌트에서 부모컴포넌트가 전달한 state 변수를 props 로 받음.
+// bookables 는 전체 목록, bookable 목록 중에 선택한 하나의 객체를 컴포넌트 프롭으로 받음.
+// 자식 컴포넌트에서 부모컴포넌트가 전달한 state 변수를 props 로 받음.
+// eslint-disable-next-line react/prop-types
 export default function BookablesList ({bookable, setBookable}) {
     // 자식 BookablesList 컴포넌트가 관리하는 state 변수 선언
     //예약 가능 자원 데이터를 fetch 수신하는데 필요한 상태 변수
@@ -12,6 +13,7 @@ export default function BookablesList ({bookable, setBookable}) {
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    // eslint-disable-next-line react/prop-types
     const group = bookable?.group;
     const bookablesInGroup = bookables.filter(b => b.group === group);
     const groups = [...new Set(bookables.map(b => b.group))];
@@ -58,6 +60,7 @@ export default function BookablesList ({bookable, setBookable}) {
             </select>
 
             <ul className="bookables items-list-nav">
+                {/* 기존 코드 (b,i) 인자를 받아서 i 인덱스 상태를 변경함 */}
                 {bookablesInGroup.map(b => (
                     <li
                         key={b.id}
